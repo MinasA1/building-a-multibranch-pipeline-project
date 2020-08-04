@@ -8,7 +8,7 @@ pipeline {
     agent any
     environment {
         CI = 'true'
-        env.NODEJS_HOME = "${tool 'Node 12.12'}"
+        env.NODEJS_HOME = "${tool 'node'}"
         env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     }
     stages {
