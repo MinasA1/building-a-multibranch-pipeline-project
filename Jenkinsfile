@@ -1,18 +1,26 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000'
-        }
-    }
+    // agent {
+    //     docker {
+    //         image 'node:6-alpine'
+    //         args '-p 3000:3000 -p 5000:5000'
+    //     }
+    // }
+    agent any
     environment {
         CI = 'true'
     }
     stages {
+ 
         stage('Build') {
-            steps {
-                sh 'npm install'
-            }
+            dir('Build') {
+            env.NODEJS_HOME = "${tool 'Node 12.12'}"
+            env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+            sh 'npm install'
+            sh 'npm pack'  
+        }
+            // steps {
+            //     sh 'npm install'
+            // }
         }
         stage('Test') {
             steps {
