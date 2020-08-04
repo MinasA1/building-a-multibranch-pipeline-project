@@ -35,9 +35,12 @@ pipeline {
             }
             environment {
                 SSH_CREDS = credentials('cbf9acb1-da9a-4409-9812-3bede055c082')
+                PORT = '9122'
+                HOST = 'athenslabs.gr'
             }
             steps {
                 sh "echo ${SSH_CREDS}"
+                sh "ssh -o StrictHostKeyChecking=no -i ${SSH_CREDS} -p ${PORT} ${SSH_CREDS_USR}@${HOST} pwd"
                 sh './jenkins/scripts/deploy-for-production.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
