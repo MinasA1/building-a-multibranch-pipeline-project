@@ -34,7 +34,7 @@ pipeline {
                 branch 'prod'
             }
             environment {
-                SH_CREDS = credentials('cbf9acb1-da9a-4409-9812-3bede055c082')
+                SSH_CREDS = credentials('cbf9acb1-da9a-4409-9812-3bede055c082')
             }
             steps {
                 sh "echo ${SSH_CREDS}"
