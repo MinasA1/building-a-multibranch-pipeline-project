@@ -8,19 +8,15 @@ pipeline {
     agent any
     environment {
         CI = 'true'
+        env.NODEJS_HOME = "${tool 'Node 12.12'}"
+        env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     }
     stages {
  
         stage('Build') {
-            dir('Build') {
-            env.NODEJS_HOME = "${tool 'Node 12.12'}"
-            env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-            sh 'npm install'
-            sh 'npm pack'  
-        }
-            // steps {
-            //     sh 'npm install'
-            // }
+            steps {
+                sh 'npm install'
+            }
         }
         stage('Test') {
             steps {
