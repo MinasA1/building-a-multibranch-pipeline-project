@@ -1,17 +1,28 @@
+def remote = [:]
+remote.name = "labs"
+remote.host = "athenslabs.gr"
+remote.allowAnyHosts = true
+
 pipeline {
     agent {
         docker {
-            image 'node:6-alpine'
+            image 'node:14-alpine'
             args '-p 3000:3000 -p 5000:5000'
         }
     }
     environment {
         CI = 'true'
+        SSH_CREDS = credentials('cbf9acb1-da9a-4409-9812-3bede055c082')
+        remote.user = SSH_CREDS_USR
+        remote.identityFile = SSH_CREDS
+        remote.port = 9122
     }
     stages {
         stage('Build') {
             steps {
+                sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
                 sh 'npm install'
+
             }
         }
         stage('Test') {
